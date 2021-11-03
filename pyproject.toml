@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "dnspython"
+name = "dnspythonchia"
 version = "2.2.0"
 description = "DNS toolkit"
 authors = ["Bob Halley <halley@dnspython.org>"]
