@@ -36,8 +36,9 @@ jobs:
         arch -arm64 python3 -m venv venv
         . ./venv/bin/activate
         arch -arm64 pip install ./dist/*.whl
-        arch -arm64 pip install pytest
-        arch -arm64 ./venv/bin/pytest -v ./tests
+        arch -arm64 pip install poetry
+        arch -arm64 ./venv/bin/poetry install -E dnssec -E doh -E idna -E trio -E curio
+        arch -arm64 ./venv/bin/poetry run pytest --cov=. --cov-report=xml:coverage.xml
 
     - name: Create sha256 hash
       run: |
