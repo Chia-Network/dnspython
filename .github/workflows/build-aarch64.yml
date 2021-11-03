@@ -31,33 +31,10 @@ jobs:
         source venv/bin/activate
         python -m pip install --upgrade pip
         pip install wheel
-        pip install cibuildwheel==1.9.0
 
-    - name: Build wheel and test
+    - name: Build ${{ matrix.os }} wheels and test
       run: |
-        source venv/bin/activate
-        python -m cibuildwheel --output-dir dist
-      env:
-        CIBW_BUILD_VERBOSITY_LINUX: 0
-        # build python 3.7 and 3.8
-        CIBW_BUILD: cp37-* cp38-* cp39-*
-        CIBW_MANYLINUX_AARCH64_IMAGE: manylinux2014
-        # we need boost
-        CIBW_BEFORE_ALL_LINUX: >
-          yum -y install epel-release
-          && yum -y install boost-devel lzip cmake3
-          && rm -rf /usr/local/bin/cmake
-          && ln -s /usr/bin/cmake3 /usr/local/bin/cmake
-          && curl -L https://gmplib.org/download/gmp/gmp-6.2.1.tar.lz | lzip -dc | tar x
-          && cd gmp-6.2.1 && ./configure --enable-fat --enable-cxx
-          && make && make install && cd .. && rm -rf gmp-6.2.1
-          && cmake --version
-          && uname -a
-        CIBW_BEFORE_BUILD_LINUX: >
-          python -m pip install --upgrade pip
-        CIBW_TEST_REQUIRES: poetry
-        CIBW_TEST_COMMAND: poetry install -E dnssec -E doh -E idna -E trio -E curio && poetry run pytest --cov=. --cov-report=xml:coverage.xml
-        CIBW_ENVIRONMENT_LINUX: "BUILD_VDF_CLIENT=N"
+        pip wheel -w dist --no-deps .
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2

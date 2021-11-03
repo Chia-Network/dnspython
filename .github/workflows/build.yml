@@ -36,7 +36,7 @@ jobs:
 
     - name: Build ${{ matrix.os }} wheels and test
       run: |
-        pip wheel -w dist .
+        pip wheel -w dist --no-deps .
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
