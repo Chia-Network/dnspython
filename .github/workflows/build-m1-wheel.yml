@@ -21,15 +21,9 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Ensure dependencies are present
-      run: |
-        brew install gmp boost
-
     - name: Build m1 wheels
       run: |
-        export BUILD_VDF_CLIENT=N
         arch -arm64 pip wheel -w dist --no-deps .
-        arch -arm64 delocate-wheel -v dist/*.whl
 
     - name: Test wheel
       run: |
