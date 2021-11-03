@@ -55,8 +55,8 @@ jobs:
           && uname -a
         CIBW_BEFORE_BUILD_LINUX: >
           python -m pip install --upgrade pip
-        CIBW_TEST_REQUIRES: pytest
-        CIBW_TEST_COMMAND: py.test -v {project}/tests
+        CIBW_TEST_REQUIRES: poetry
+        CIBW_TEST_COMMAND: poetry install -E dnssec -E doh -E idna -E trio -E curio && poetry run pytest --cov=. --cov-report=xml:coverage.xml
         CIBW_ENVIRONMENT_LINUX: "BUILD_VDF_CLIENT=N"
 
     - name: Upload artifacts
