@@ -100,8 +100,8 @@ jobs:
           && delocate-wheel -v -i mpir_gc_x64/mpir_sandybridge.dll {wheel}
           && delocate-wheel -v -i mpir_gc_x64/mpir_skylake_avx.dll {wheel}
           && cp {wheel} {dest_dir}
-        CIBW_TEST_REQUIRES: pytest
-        CIBW_TEST_COMMAND: py.test -v {project}/tests
+        CIBW_TEST_REQUIRES: poetry
+        CIBW_TEST_COMMAND: poetry install -E dnssec -E doh -E idna -E trio -E curio && poetry run pytest --cov=. --cov-report=xml:coverage.xml
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
