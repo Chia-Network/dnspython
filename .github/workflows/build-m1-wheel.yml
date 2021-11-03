@@ -25,15 +25,6 @@ jobs:
       run: |
         arch -arm64 pip wheel -w dist --no-deps .
 
-    - name: Test wheel
-      run: |
-        arch -arm64 python3 -m venv venv
-        . ./venv/bin/activate
-        arch -arm64 pip install ./dist/*.whl
-        arch -arm64 pip install poetry
-        arch -arm64 ./venv/bin/poetry install -E dnssec -E doh -E idna -E trio -E curio
-        arch -arm64 ./venv/bin/poetry run pytest --cov=. --cov-report=xml:coverage.xml
-
     - name: Create sha256 hash
       run: |
         mkdir hashes
